@@ -1,0 +1,79 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# CMake
+CMakeCache.txt
+CMakeFiles
+cmake_install.cmake
+install_manifest.txt
+*.cmake
+!glmConfig.cmake
+!glmConfig-version.cmake
+# ^ May need to add future .cmake files as exceptions
+
+# Test logs
+Testing/*
+
+# Test input
+test/gtc/*.dds
+
+# Project Files
+Makefile
+*.cbp
+*.user
+
+# Misc.
+*.log
+
+# local build(s)
+build*
+
+.vs
+.vscode
+CMakeSettings.json
+.DS_Store
+*.swp
+
+/dependencies
