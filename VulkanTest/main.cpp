@@ -240,26 +240,77 @@ private:
 
     #pragma endregion
 
-    void initVulkan() {
+	#pragma region Logical device and queues
+	VkDevice device;
+    VkQueue graphicsQueue;
+    void createLogicalDevice()
+    {
+    	//Specifying the queues to be created
+	    QueueFamilyIndices indices = findQueueFamilies(physicalDevice);
+
+    	VkDeviceQueueCreateInfo queueCreateInfo{};
+    	queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+    	queueCreateInfo.queueFamilyIndex = indices.graphicsFamily.value();
+    	queueCreateInfo.queueCount = 1;
+    	float queuePriority = 1.0f;
+    	queueCreateInfo.pQueuePriorities = &queuePriority;
+
+    	//Specifying used device features
+        VkPhysicalDeviceFeatures deviceFeatures {};
+
+    	//Creating the logical device
+        VkDeviceCreateInfo createInfo {};
+        createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+    	createInfo.pQueueCreateInfos = &queueCreateInfo;
+        createInfo.queueCreateInfoCount = 1;
+
+        createInfo.pEnabledFeatures = &deviceFeatures;
+        if(enableValidationLayers)
+        {
+            createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
+            createInfo.ppEnabledLayerNames = validationLayers.data();
+        }
+        else
+        {
+            createInfo.enabledLayerCount = 0;
+        }
+
+    	if(vkCreateDevice(physicalDevice, &createInfo, nullptr, &device) != VK_SUCCESS)
+    	{
+    		throw std::runtime_error("failed to create logical device!");
+    	}
+
+    	//Retrieving queue handles
+    	vkGetDeviceQueue(device, indices.graphicsFamily.value(), 0, &graphicsQueue);
+    }
+	#pragma endregion 
+
+    void initVulkan()
+    {
         printExtensions();
         createInstance();
         setupDebugMessenger();
         pickPhysicalDevice();
+    	createLogicalDevice();
     }
 
-    void mainLoop() {
-        while (!glfwWindowShouldClose(window)) {
+    void mainLoop()
+    {
+        while (!glfwWindowShouldClose(window))
+        {
             glfwPollEvents();
         }
     }
 
-    void cleanup() {
+    void cleanup()
+    {
         if(enableValidationLayers)
         {
-            //DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
+            DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
         }
 
         vkDestroyInstance(instance, nullptr);
+    	vkDestroyDevice(device, nullptr);
 
         glfwDestroyWindow(window);
 
