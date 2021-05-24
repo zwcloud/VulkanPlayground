@@ -3,4 +3,11 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="vert.spv" />
+    <None Include="frag.spv" />
+    <None Include="shader.vert" />
+    <None Include="shader.frag" />
+    <None Include="compile.bat" />
+  </ItemGroup>
 </Project>
